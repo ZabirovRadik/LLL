@@ -1,4 +1,3 @@
-import numpy as np
 from lll import lll_reduce
 
 
