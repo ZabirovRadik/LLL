@@ -23,6 +23,13 @@ def recover_message(reduced, public_key, ciphertext):
     return None
 
 
+def attack_knapsack(public_key, ciphertext):
+    basis = create_basis(public_key, ciphertext)
+    reduced = lll_reduce(basis, verbose=False)
+    recovered = recover_message(reduced, public_key, ciphertext)
+    return recovered, basis, reduced
+
+
 if __name__ == "__main__":
     print("\nАТАКА НА СИСТЕМУ MERKLE-HELLMAN\n")
     
@@ -62,10 +69,7 @@ if __name__ == "__main__":
         public_key = [(r * w) % q for w in private_key]
         ciphertext = sum(b * k for b, k in zip(message_bits, public_key))
         
-        basis = create_basis(public_key, ciphertext)
-        reduced = lll_reduce(basis, verbose=False)
-        
-        recovered = recover_message(reduced, public_key, ciphertext)
+        recovered, basis, reduced = attack_knapsack(public_key, ciphertext)
         success = recovered == message_bits
         
         msg_str = str(message_bits)

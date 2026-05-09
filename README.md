@@ -1,2 +1,51 @@
-# LLL
-LLL Algorithm — implementation of the Lenstra–Lenstra–Lovász lattice basis reduction algorithm. Course project on computational number theory / cryptography.
+# LLL-редукция базиса и её применение к взлому криптосистем
+
+Реализация алгоритмов редукции базиса целочисленных решёток:
+
+- метод Гаусса для двумерного случая,
+- алгоритм LLL,
+- проверка LLL-приведённости,
+- а также применение к взлому ранцевой системы Меркля-Хеллмана и конгруэнтной схемы.
+
+## Файлы
+
+| Файл                      | Содержание |
+|---------------------------|------------|
+| `gauss.py`                | Редукция двумерного базиса методом Гаусса |
+| `lll.py`                  | Алгоритм LLL для произвольной размерности |
+| `checks.py`               | Ортогонализация Грама-Шмидта и проверка LLL-приведённости |
+| `attack_merkle_hellman.py`| Взлом ранцевой системы Меркля-Хеллмана |
+| `attack_congruential.py`  | Взлом конгруэнтной схемы через LLL |
+| `main.py`                 | Точка входа, выбор задачи через константу `TASK` |
+| `tests.py`                | Тесты корректности реализаций |
+
+## Запуск
+
+Выбор задачи осуществляется через константу `TASK` в файле `main.py`:
+
+```python
+TASK = "GAUSS"          # редукция двумерного базиса
+TASK = "LLL"            # редукция произвольного базиса
+TASK = "CONGRUENTIAL"   # взлом конгруэнтной схемы
+TASK = "KNAPSACK"       # взлом ранцевой системы
+```
+
+Запуск:
+
+```bash
+python main.py
+```
+
+## Проверка LLL-приведённости
+
+Функция `is_lll_reduced(basis, delta=0.75, verbose=True)` в `checks.py` проверяет два основных условия:
+
+- **Условие размерной редукции**: $| \mu_{i,j} | \leq 0.5$ для всех $i > j$
+- **Условие Ловаса**: $\delta \cdot \| \mathbf{b}^*_{k-1} \|^2 \leq \| \mathbf{b}^*_k + \mu_{k,k-1} \mathbf{b}^*_{k-1} \|^2$
+
+## Источники
+
+- Hoffstein, Pipher, Silverman. *An Introduction to Mathematical Cryptography*, 2nd ed., Springer, 2014.
+- SageMath: [http://www.sagemath.org/](http://www.sagemath.org/)
+
+
